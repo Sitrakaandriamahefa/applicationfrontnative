@@ -17,8 +17,8 @@ const Dasboard = (props) => {
       style ={styles.animations}
       source={require('../animation/Animation - 1735191121981.json')} autoPlay loop
     />
-   <TouchableOpacity style={styles.button} onPress={() =>props.navigation.navigate('Logins')}>
-          <Text style = {styles.textbutton}>Connecter</Text>
+   <TouchableOpacity style={styles.button} onPress={() =>props.navigation.navigate('Sings')}>
+          <Text style = {styles.textbutton}>Continuer</Text>
         </TouchableOpacity>
     </View>
   );
@@ -33,6 +33,8 @@ const styles = StyleSheet.create({
       color:'#39d5ff',
       marginTop: -50,
       marginBottom: 40,
+      fontWeight: 'bold',
+      fontFamily:'arial'
     },
     logo: {
       width: "100%",
