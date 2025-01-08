@@ -5,7 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Dasboard from './ecran/Dasboard';
 import Login from './ecran/login';
 import Index from './route';
-import Myboutton from './boutton/myboutton';
+import Sing from './ecran/sing';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ const App = () => {
     
         <Stack.Screen name="dasboard" component={Dasboard} />
         <Stack.Screen name="Logins" component={Login} /> 
+        <Stack.Screen name="Sings" component={Sing} />
        
        
       </Stack.Navigator>
