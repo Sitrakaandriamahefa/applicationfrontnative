@@ -3,7 +3,7 @@ import React from 'react'
 import { View, Text ,TextInput, StyleSheet, Button,TouchableOpacity, Alert , Image} from 'react-native'
 import { useState } from 'react';
 
-const login = (props) => {
+const Login = (props) => {
   console.log(props)
   const [nom, setNom] = useState('');
   const [email, setEmail] = useState('');
@@ -147,4 +147,4 @@ boutton : {
  
 )
 
-export default login
+export default Login
