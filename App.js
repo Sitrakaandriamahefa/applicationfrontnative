@@ -7,6 +7,7 @@ import Login from './ecran/login';
 import Index from './route';
 import Sing from './ecran/sing';
 import Acceuil from './ecran/Acceuil';
+import Discvover from './ecran/Discvover';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,21 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Acceuils',
+            headerStyle: {
+              backgroundColor: '#39d5ff',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+         <Stack.Screen
+          name="Discovers"
+          component={Discvover}
+          options={{
+            headerShown: true,
+            title: 'discovers',
             headerStyle: {
               backgroundColor: '#39d5ff',
             },

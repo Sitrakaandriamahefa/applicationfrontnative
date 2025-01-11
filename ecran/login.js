@@ -68,7 +68,7 @@ const Login = (props) => {
         
         
       />
-       <TouchableOpacity  style={styles.boutton}  onPress={() =>props.navigation.navigate('Sings')}>
+       <TouchableOpacity  style={styles.boutton}  onPress={() =>props.navigation.navigate('Discovers')}>
                 <Text style = {styles.textbutton}>Ajouter</Text>
               </TouchableOpacity>
     
