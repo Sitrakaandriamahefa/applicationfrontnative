@@ -6,8 +6,10 @@ import Dasboard from './ecran/Dasboard';
 import Login from './ecran/login';
 import Index from './route';
 import Sing from './ecran/sing';
-import Acceuil from './ecran/Acceuil';
-import Discvover from './ecran/Discvover';
+
+import AppContent from './ecran/AffichageConnection';
+import ParentComponent from './ecran/ApiConnection';
+import AffichageConnection from './ecran/AffichageConnection';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,24 +53,10 @@ const App = () => {
             },
           }}
         />
-        <Stack.Screen
-          name="Acceuils"
-          component={Acceuil}
-          options={{
-            headerShown: true,
-            title: 'Acceuils',
-            headerStyle: {
-              backgroundColor: '#39d5ff',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-         <Stack.Screen
+       
+         {/* <Stack.Screen
           name="Discovers"
-          component={Discvover}
+          component={AppContent}
           options={{
             headerShown: true,
             title: 'discovers',
@@ -80,7 +68,26 @@ const App = () => {
               fontWeight: 'bold',
             },
           }}
+        /> */}
+           <Stack.Screen
+          name="DataView"
+          component={AffichageConnection }
+          options={{
+            headerShown: true,
+            title: 'DataView',
+            headerStyle: {
+              backgroundColor: '#39d5ff',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
         />
+
+
+       
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

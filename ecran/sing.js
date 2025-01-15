@@ -41,9 +41,12 @@ const Sing = (props) => {
                                <Text style = {styles.textbutton}>Se connecter</Text>
                              </TouchableOpacity>
 
-                     <TouchableOpacity  style={styles.boutton}  onPress={() =>props.navigation.navigate('Logins')}>
+                     <TouchableOpacity  style={styles.boutton}  onPress={() =>props.navigation.navigate('DataView')}>
                                   <Text style = {styles.textbutton}>create compte</Text>
-                                </TouchableOpacity>           
+                                </TouchableOpacity>   
+                                <TouchableOpacity  style={styles.boutton}  onPress={() =>props.navigation.navigate('Discovers')}>
+                                  <Text style = {styles.textbutton}>Ato aloha miteste</Text>
+                                </TouchableOpacity>                         
    </View>
   )
 }
