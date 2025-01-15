@@ -1,7 +1,6 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
 import CommentForm from './CommentForm';
-import { useState } from 'react';
 
 const ApiContent = ({ data }) => {
   // Vérifie si les données sont disponibles
@@ -11,17 +10,65 @@ const ApiContent = ({ data }) => {
 
   // Extraire les commentaires
   const [comments, setComments] = useState(data["1dejndh"].comments);
+  const [editingComment, setEditingComment] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); // Page actuelle
+  const commentsPerPage = 10; // Nombre de commentaires par page
 
+  // Fonction pour ajouter un nouveau commentaire
   const handleAddComment = (newComment) => {
     setComments((prevComments) => [newComment, ...prevComments]);
   };
 
-  // Afficher un commentaire
+  // Fonction pour éditer un commentaire
+  const handleEditComment = (comment) => {
+    setEditingComment(comment);
+  };
+
+  // Fonction pour supprimer un commentaire
+  const handleDeleteComment = (commentId) => {
+    const updatedComments = comments.filter((comment) => comment.id !== commentId);
+    setComments(updatedComments);
+    console.warn('Commentaire supprimé :', commentId);
+  };
+
+  // Fonction pour enregistrer les modifications d'un commentaire
+  const handleSaveEdit = (updatedComment) => {
+    const updatedComments = comments.map((comment) =>
+      comment.id === updatedComment.id ? updatedComment : comment
+    );
+    setComments(updatedComments);
+    setEditingComment(null); // Fermer le formulaire de modification
+    console.warn('Commentaire modifié :', updatedComment);
+  };
+
+  // Calculer les commentaires à afficher pour la page actuelle
+  const indexOfLastComment = currentPage * commentsPerPage;
+  const indexOfFirstComment = indexOfLastComment - commentsPerPage;
+  const currentComments = comments.slice(indexOfFirstComment, indexOfLastComment);
+
+  // Fonction pour changer de page
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(comments.length / commentsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  // Fonction pour afficher un commentaire
   const renderComment = ({ item }) => (
     <View style={styles.commentContainer}>
       <Text style={styles.commentAuthor}>{item.author || "Anonyme"}</Text>
       <Text style={styles.commentBody}>{item.body}</Text>
       <Text style={styles.commentDate}>Date : {item.created}</Text>
+      <View style={styles.actionsContainer}>
+        <Button title="Modifier" onPress={() => handleEditComment(item)} />
+        <Button title="Supprimer" onPress={() => handleDeleteComment(item.id)} />
+      </View>
       {item.replies && item.replies.length > 0 && (
         <View style={styles.repliesContainer}>
           <Text style={styles.repliesHeader}>Réponses :</Text>
@@ -41,11 +88,49 @@ const ApiContent = ({ data }) => {
     <View style={styles.container}>
       <Text style={styles.header}>Commentaires</Text>
       <CommentForm onSubmit={handleAddComment} />
+
+      {/* Afficher le formulaire de modification si editingComment n'est pas null */}
+      {editingComment && (
+        <View style={styles.editFormContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Auteur"
+            value={editingComment.author}
+            onChangeText={(text) =>
+              setEditingComment({ ...editingComment, author: text })
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Commentaire"
+            value={editingComment.body}
+            onChangeText={(text) =>
+              setEditingComment({ ...editingComment, body: text })
+            }
+            multiline
+          />
+          <Button title="Enregistrer" onPress={() => handleSaveEdit(editingComment)} />
+          <Button title="Annuler" onPress={() => setEditingComment(null)} />
+        </View>
+      )}
+
+      {/* Afficher la liste des commentaires de la page actuelle */}
       <FlatList
-        data={comments}
+        data={currentComments}
         renderItem={renderComment}
         keyExtractor={(item) => item.id}
       />
+
+      {/* Pagination */}
+      <View style={styles.paginationContainer}>
+        <Button title="Page précédente" onPress={handlePrevPage} disabled={currentPage === 1} />
+        <Text style={styles.pageNumber}>Page {currentPage}</Text>
+        <Button
+          title="Page suivante"
+          onPress={handleNextPage}
+          disabled={currentPage === Math.ceil(comments.length / commentsPerPage)}
+        />
+      </View>
     </View>
   );
 };
@@ -68,6 +153,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#ddd',
+  },
+  actionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
   },
   commentAuthor: {
     fontSize: 16,
@@ -93,6 +183,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
   },
+  editFormContainer: {
+    padding: 15,
+    marginBottom: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  input: {
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 4,
+  },
   replyContainer: {
     marginBottom: 10,
   },
@@ -108,6 +213,16 @@ const styles = StyleSheet.create({
   replyDate: {
     fontSize: 10,
     color: '#666',
+  },
+  paginationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  pageNumber: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   error: {
     color: 'red',
