@@ -8,7 +8,7 @@ import Index from './route';
 import Sing from './ecran/sing';
 
 import AppContent from './ecran/AffichageConnection';
-import ParentComponent from './ecran/ApiConnection';
+
 import AffichageConnection from './ecran/AffichageConnection';
 
 const Stack = createNativeStackNavigator();
@@ -53,22 +53,8 @@ const App = () => {
             },
           }}
         />
-       
-         {/* <Stack.Screen
-          name="Discovers"
-          component={AppContent}
-          options={{
-            headerShown: true,
-            title: 'discovers',
-            headerStyle: {
-              backgroundColor: '#39d5ff',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        /> */}
+
+        
            <Stack.Screen
           name="DataView"
           component={AffichageConnection }

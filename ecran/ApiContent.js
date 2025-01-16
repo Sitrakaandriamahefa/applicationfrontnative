@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Button, TextInput } from 'react-native';
 import CommentForm from './CommentForm';
 
 const ApiContent = ({ data }) => {
@@ -12,6 +12,8 @@ const ApiContent = ({ data }) => {
   const [comments, setComments] = useState(data["1dejndh"].comments);
   const [editingComment, setEditingComment] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); // Page actuelle
+  const [searchTerm, setSearchTerm] = useState(''); // Terme de recherche
+  const [filterAuthor, setFilterAuthor] = useState(''); // Filtre par auteur
   const commentsPerPage = 10; // Nombre de commentaires par page
 
   // Fonction pour ajouter un nouveau commentaire
@@ -41,14 +43,21 @@ const ApiContent = ({ data }) => {
     console.warn('Commentaire modifié :', updatedComment);
   };
 
+  // Filtrer les commentaires en fonction du terme de recherche et du filtre par auteur
+  const filteredComments = comments.filter((comment) => {
+    const matchesSearchTerm = comment.body.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesAuthor = filterAuthor ? comment.author === filterAuthor : true;
+    return matchesSearchTerm && matchesAuthor;
+  });
+
   // Calculer les commentaires à afficher pour la page actuelle
   const indexOfLastComment = currentPage * commentsPerPage;
   const indexOfFirstComment = indexOfLastComment - commentsPerPage;
-  const currentComments = comments.slice(indexOfFirstComment, indexOfLastComment);
+  const currentComments = filteredComments.slice(indexOfFirstComment, indexOfLastComment);
 
   // Fonction pour changer de page
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(comments.length / commentsPerPage)) {
+    if (currentPage < Math.ceil(filteredComments.length / commentsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -87,6 +96,23 @@ const ApiContent = ({ data }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Commentaires</Text>
+
+      {/* Barre de recherche */}
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Rechercher un commentaire..."
+        value={searchTerm}
+        onChangeText={setSearchTerm}
+      />
+
+      {/* Filtre par auteur */}
+      <TextInput
+        style={styles.filterInput}
+        placeholder="Filtrer par auteur..."
+        value={filterAuthor}
+        onChangeText={setFilterAuthor}
+      />
+
       <CommentForm onSubmit={handleAddComment} />
 
       {/* Afficher le formulaire de modification si editingComment n'est pas null */}
@@ -128,7 +154,7 @@ const ApiContent = ({ data }) => {
         <Button
           title="Page suivante"
           onPress={handleNextPage}
-          disabled={currentPage === Math.ceil(comments.length / commentsPerPage)}
+          disabled={currentPage === Math.ceil(filteredComments.length / commentsPerPage)}
         />
       </View>
     </View>
@@ -145,6 +171,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+  },
+  searchInput: {
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 4,
+  },
+  filterInput: {
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 4,
   },
   commentContainer: {
     padding: 15,
