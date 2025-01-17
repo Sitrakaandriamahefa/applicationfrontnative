@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
   },
+  // gggg
   dateContainer: {
     marginBottom: 20,
     backgroundColor: '#fff',
