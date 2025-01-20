@@ -1,29 +1,30 @@
 // dependance nécessaire
 // npm install @react-native-firebase/app @react-native-firebase/firestore
 // npm install @react-native-firebase/auth @react-native-firebase/storage
+// npm install @react-navigation/native @react-navigation/stack
 
-import React from 'react';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, FlatList, ScrollView, TouchableOpacity } from 'react-native';
-import { database } from './firebaseConfig'; // Importez database depuis votre fichier de configuration
+import { View, Text, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
+import { database } from './firebaseConfig';
+import { useNavigation } from '@react-navigation/native'; // Importez useNavigation
 
 const Tableau = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const [itemsPerPage] = useState(5); // Nombre d'éléments par page
-  const [sortOrder, setSortOrder] = useState('asc'); // 'asc' ou 'desc'
+  const [itemsPerPage] = useState(5);
+  const [sortOrder, setSortOrder] = useState('asc');
+
+  const navigation = useNavigation(); // Utilisez useNavigation pour la navigation
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Référence à la base de données Realtime Database
-        const ref = database().ref('/10_10_2024'); // Remplacez '/' par le chemin de votre base de données
+        const ref = database().ref('/10_10_2024');
         const snapshot = await ref.once('value');
         const dataObject = snapshot.val();
 
-        // Convertir l'objet en tableau de dates, threads et données associées
         const dataArray = Object.keys(dataObject).map((date) => ({
           date,
           threads: Object.keys(dataObject[date]).map((thread) => ({
@@ -35,7 +36,6 @@ const Tableau = () => {
           })),
         }));
 
-        // Trier les dates
         dataArray.sort((a, b) => {
           const dateA = new Date(a.date.replace(/_/g, '-'));
           const dateB = new Date(b.date.replace(/_/g, '-'));
@@ -69,7 +69,6 @@ const Tableau = () => {
     );
   }
 
-  // Pagination
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
@@ -88,6 +87,14 @@ const Tableau = () => {
         <Text style={styles.sortButtonText}>
           Trier par date ({sortOrder === 'asc' ? 'Croissant' : 'Décroissant'})
         </Text>
+      </TouchableOpacity>
+
+      {/* Bouton pour naviguer vers la page du graphique */}
+      <TouchableOpacity
+        style={styles.graphButton}
+        onPress={() => navigation.navigate('Graphique', { data })}
+      >
+        <Text style={styles.graphButtonText}>Voir le graphique</Text>
       </TouchableOpacity>
 
       {/* Affichage des données */}
@@ -148,7 +155,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
   },
-  // gggg
   dateContainer: {
     marginBottom: 20,
     backgroundColor: '#fff',
@@ -213,6 +219,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   sortButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  graphButton: {
+    backgroundColor: '#28a745',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  graphButtonText: {
     color: '#fff',
     fontWeight: 'bold',
   },

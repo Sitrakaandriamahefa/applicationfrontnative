@@ -9,6 +9,7 @@ import Sing from './ecran/sing';
 import Acceuil from './ecran/Acceuil';
 import Discvover from './ecran/Discvover';
 import Tableau from './ecran/Tableau'; // Importez Tableau.js
+import Tableau from './ecran/Graphique'; // Importez Graphique.js
 
 const Stack = createNativeStackNavigator();
 
@@ -98,6 +99,7 @@ const App = () => {
             },
           }}
         />
+        <Stack.Screen name="Graphique" component={Graphique} />
       </Stack.Navigator>
     </NavigationContainer>
   );
