@@ -44,7 +44,7 @@ const Sing = (props) => {
                      <TouchableOpacity  style={styles.boutton}  onPress={() =>props.navigation.navigate('DataView')}>
                                   <Text style = {styles.textbutton}>create compte</Text>
                                 </TouchableOpacity>   
-                                <TouchableOpacity  style={styles.boutton}  onPress={() =>props.navigation.navigate('Discovers')}>
+                                <TouchableOpacity  style={styles.boutton}  onPress={() =>props.navigation.navigate('firebase')}>
                                   <Text style = {styles.textbutton}>Ato aloha miteste</Text>
                                 </TouchableOpacity>                         
    </View>

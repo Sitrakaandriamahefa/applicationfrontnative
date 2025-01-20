@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "555915003448",
+    "firebase_url": "https://redditdatascrapekeywords-default-rtdb.firebaseio.com",
+    "project_id": "redditdatascrapekeywords",
+    "storage_bucket": "redditdatascrapekeywords.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555915003448:android:7303793a4814865e35c8cd",
+        "android_client_info": {
+          "package_name": "com.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDucQsUklnq_hCmezbHcSbQHp7NdnO1yy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
