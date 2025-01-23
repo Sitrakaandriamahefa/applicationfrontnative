@@ -1,9 +1,7 @@
 // App.js
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { initializeApp } from '@react-native-firebase/app';
-import firebaseConfig from './firebase/FirebaseConfig'; // Importe la configuration Firebase
 import Dasboard from './ecran/Dasboard';
 import Login from './ecran/login';
 import Sing from './ecran/sing';
@@ -14,30 +12,8 @@ import { ActivityIndicator, View, Text } from 'react-native';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [firebaseInitialized, setFirebaseInitialized] = useState(false);
-
-  useEffect(() => {
-    // Initialiser Firebase
-    initializeApp(firebaseConfig)
-      .then(() => {
-        console.log('Firebase initialisé avec succès !');
-        setFirebaseInitialized(true);
-      })
-      .catch(error => {
-        console.error('Erreur lors de l\'initialisation de Firebase :', error);
-      });
-  }, []);
-
-  if (!firebaseInitialized) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Initialisation de Firebase...</Text>
-      </View>
-    );
-  }
-
   return (
+    
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -108,6 +84,7 @@ const App = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    
   );
 };
 
