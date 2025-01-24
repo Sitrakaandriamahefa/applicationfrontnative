@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Dasboard from './ecran/Dasboard';
@@ -9,7 +9,8 @@ import Sing from './ecran/sing';
 import Acceuil from './ecran/Acceuil';
 import Discvover from './ecran/Discvover';
 import Tableau from './ecran/Tableau'; // Importez Tableau.js
-import Tableau from './ecran/Graphique'; // Importez Graphique.js
+import Graphique from './ecran/Graphique'; // Importez Graphique.js
+import BoutonCollab from './ecran/BoutonCollab'; // Importez BoutonCollab.js
 
 const Stack = createNativeStackNavigator();
 
@@ -99,7 +100,38 @@ const App = () => {
             },
           }}
         />
-        <Stack.Screen name="Graphique" component={Graphique} />
+        {/* Ajoutez Graphique.js à la navigation */}
+        <Stack.Screen
+          name="Graphique"
+          component={Graphique}
+          options={{
+            headerShown: true,
+            title: 'Graphique',
+            headerStyle: {
+              backgroundColor: '#39d5ff',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        {/* Ajoutez BoutonCollab.js à la navigation */}
+        <Stack.Screen
+          name="BoutonCollab"
+          component={BoutonCollab}
+          options={{
+            headerShown: true,
+            title: 'Bouton Collab',
+            headerStyle: {
+              backgroundColor: '#39d5ff',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -108,7 +140,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#131c37',
-    justifyContent: 'center', // Correction : virgule enlevée
+    justifyContent: 'center',
   },
 });
 

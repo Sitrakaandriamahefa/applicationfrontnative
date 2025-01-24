@@ -1,0 +1,56 @@
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet, ActivityIndicator } from 'react-native';
+import axios from 'axios';
+
+const BoutonCollab = () => {
+  const [output, setOutput] = useState(null); // Pour stocker la réponse de l'API
+  const [loading, setLoading] = useState(false); // Pour gérer l'état de chargement
+
+  const handleButtonPress = async () => {
+    setLoading(true); // Active l'indicateur de chargement
+    try {
+      // Envoie une requête POST à l'API Flask
+      const response = await axios.post('https://votre-app.herokuapp.com/run-colab');
+      setOutput(response.data.output); // Stocke la sortie de l'API
+    } catch (error) {
+      console.error('Erreur:', error);
+      setOutput("Une erreur s'est produite lors de l'exécution du code.");
+    } finally {
+      setLoading(false); // Désactive l'indicateur de chargement
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Exécuter le code Google Colab</Text>
+      <Button
+        title="Exécuter le code"
+        onPress={handleButtonPress}
+        disabled={loading} // Désactive le bouton pendant le chargement
+      />
+      {loading && <ActivityIndicator size="large" color="#0000ff" />}
+      {output && <Text style={styles.output}>Résultat : {output}</Text>}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  output: {
+    marginTop: 20,
+    fontSize: 16,
+    color: 'green',
+  },
+});
+
+export default BoutonCollab;
