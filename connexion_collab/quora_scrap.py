@@ -8,9 +8,9 @@ Original file is located at
 """
 
 #requirement
-!pip install selenium
+# !pip install selenium
 
-!pip install webdriver-manager
+# !pip install webdriver-manager
 
 from bs4 import BeautifulSoup
 import requests
@@ -190,4 +190,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-!pip install beautifulsoup4
+# !pip install beautifulsoup4

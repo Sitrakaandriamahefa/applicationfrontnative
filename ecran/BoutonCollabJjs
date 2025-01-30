@@ -10,11 +10,10 @@ const BoutonCollab = () => {
     setLoading(true); // Active l'indicateur de chargement
     try {
       // Envoie une requête POST à l'API Flask
-      const response = await axios.post('https://votre-app.herokuapp.com/run-colab');
+      const response = await axios.post('');//ajouter ici le lien de l'api flask utiliser
       setOutput(response.data.output); // Stocke la sortie de l'API
     } catch (error) {
       console.error('Erreur:', error);
-      setOutput("Une erreur s'est produite lors de l'exécution du code.");
     } finally {
       setLoading(false); // Désactive l'indicateur de chargement
     }

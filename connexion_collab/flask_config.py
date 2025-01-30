@@ -1,14 +1,14 @@
 # flask dependance pip install flask
-from flask import Flask, request, jsonify
-from connexion_collab import quora_scrap  # Importez votre code Colab
+from flask_config import Flask, request, jsonify
+from connexion_collab import quora_scrap  # Importation collab
 
 app = Flask(__name__)
 
 @app.route('/run-colab', methods=['POST'])
 def run_colab():
     try:
-        # Exécute la fonction principale de votre code Colab
-        output = main_function()
+        # Exécute la fonction principale
+        output = quora_scrap()
         
         # Renvoie la sortie du code sous forme de réponse JSON
         return jsonify({

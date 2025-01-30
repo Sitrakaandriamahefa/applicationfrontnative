@@ -2,6 +2,30 @@ import React from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import { useState } from 'react';
 import LottieView from 'lottie-react-native';
+
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet, ActivityIndicator } from 'react-native';
+import axios from 'axios';
+
+const BoutonCollab = () => {
+  const [output, setOutput] = useState(null); // Pour stocker la réponse de l'API
+  const [loading, setLoading] = useState(false); // Pour gérer l'état de chargement
+
+  const handleButtonPress = async () => {
+    setLoading(true); // Active l'indicateur de chargement
+    try {
+      // Envoie une requête POST à l'API Flask
+      const response = await axios.post('https://http://127.0.0.1:5000/run-colab');//ajouter ici le lien de l'api flask utiliser
+      setOutput(response.data.output); // Stocke la sortie de l'API
+    } catch (error) {
+      console.error('Erreur:', error);
+    } finally {
+      setLoading(false); // Désactive l'indicateur de chargement
+    }
+  
+  };
+};
+
 const Sing = (props) => {
   console.log(props)
       const [email, setEmail] = useState('');
@@ -37,13 +61,13 @@ const Sing = (props) => {
                  onChangeText={text => setPassword(text)} // Met à jour l'état avec le texte saisi
                  secureTextEntry={true} // Masque le texte saisi
                />
-                  <TouchableOpacity  style={styles.boutton}  onPress={() =>props.navigation.navigate('Acceuils')}>
-                               <Text style = {styles.textbutton}>Se connecter</Text>
-                             </TouchableOpacity>
+                  <TouchableOpacity  style={styles.boutton}  onPress={handleButtonPress}>
+                      <Text style = {styles.textbutton}>Se connecter</Text>
+                  </TouchableOpacity>
 
                      <TouchableOpacity  style={styles.boutton}  onPress={() =>props.navigation.navigate('Logins')}>
-                                  <Text style = {styles.textbutton}>create compte</Text>
-                                </TouchableOpacity>           
+                        <Text style = {styles.textbutton}>create compte</Text>
+                      </TouchableOpacity>           
    </View>
   )
 }
